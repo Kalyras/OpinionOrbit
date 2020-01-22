@@ -1,0 +1,55 @@
+body {
+    background-image: radial-gradient(circle, #121220, #31314d);
+    background-position: center;
+    background-size: cover;
+    font-family: sans-serif;
+}
+
+#orbit {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.card {
+    background-color: #f3f3f3;
+    padding: 20px;
+    margin: 20px;
+    position: absolute;
+}
+
+.card-title {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.navigation {
+    display: flex;
+}
+
+.card-l {
+    left: 0;
+    width: 25%;
+    margin: 5%;
+    background-color: #d0d0d0;
+}
+
+.card-c {
+    left: 30%;
+    width: 25%;
+    margin: 5%;
+}
+
+.card-r {
+    left: 60%;
+    width: 25%;
+    margin: 5%;
+    background-color: #d0d0d0;
+}
+
+#test {
+    display: inline-block;
+    height: 300px;
+    background-color: white;
+    position: absolute;
+}

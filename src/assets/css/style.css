@@ -5,22 +5,10 @@ body {
     font-family: sans-serif;
 }
 
-#orbit {
+.orbit {
     display: flex;
     justify-content: space-between;
     width: 100%;
-}
-
-.card {
-    background-color: #f3f3f3;
-    padding: 20px;
-    margin: 20px;
-    position: absolute;
-}
-
-.card-title {
-    font-size: 2em;
-    font-weight: bold;
 }
 
 .navigation {

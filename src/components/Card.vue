@@ -1,5 +1,5 @@
 <template>
-<div class="card">
+<div class="card" v-on:click="putToRiver()">
     <div class="card-title">{{title}}</div>
     <div class="card-content">{{content}}</div>
 </div>
@@ -12,12 +12,14 @@
             title: String,
             content: String
         },
+        methods: {
+            putToRiver: function (){
+                this.$emit('cardChosen', {
+                    "title" : this.title,
+                    "content": this.content
+                });
+            }
+        }
     }
 </script>
-
-<style scoped>
-
-
-
-</style>
 

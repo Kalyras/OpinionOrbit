@@ -1,26 +1,22 @@
 <template>
   <div class="orbit-container">
     <div class="orbit">
-      <!--<card 
-        v-for="card in activecards" 
-        v-bind:key="card.title"
-        :title="card.title"
-        :content="card.content"
-      ></card>-->
-
-      <card class="card"
-      v-if="activecards.left"
+      <card
+        v-if="activecards.left"
         :title="activecards.left.title"
         :content="activecards.left.content"
       ></card>
       <div class="invis-card card" v-else>
       </div>
-       <card class="card"
+
+       <card
+       v-on:cardChosen="cardChosen($event)"
        v-if="activecards.center"
         :title="activecards.center.title"
         :content="activecards.center.content"
       ></card>
-       <card class="card"
+
+       <card
        v-if="activecards.right"
         :title="activecards.right.title"
         :content="activecards.right.content"
@@ -28,16 +24,14 @@
       <div class="invis-card card" v-else>
       </div>
 
-    <div class="navigation">
-        <button id="prev" v-on:click="prev()">prev</button>
-        <button id="next" v-on:click="next()">next</button>
-    </div>
+
     </div>
 
     <orbit
       v-if = "nest && this.hasChildren(this.current)"
-      :cards = "this.getChildren(this.current)"
-      :nets = "false"
+      :cards = "getChildren(this.current)"
+      :nest = "false"
+      :current = "1"
     ></orbit>
 
   </div>
@@ -53,15 +47,21 @@ export default {
   name: 'orbit',
   components: {
     Card,
-    'orbit' : this
+    'orbit' : this,
   },
   props: {
       cards: Array,
-      nest: Boolean
+      nest: Boolean,
+      current: Number
+  },
+  watch: {
+    current: function(newVal){
+      this.activecards = this.getActive(this.orbitCards, newVal);
+    }
   },
   data (){
     return {
-      current: 1,
+      orbitCards: this.cards,
       activecards: {
         "center": {
           "title": "No Cards",
@@ -71,26 +71,10 @@ export default {
     }
   },
   methods: {
-    prev: function (){
-
-      if (this.current > 0){
-        this.current -= 1
-        this.activecards = this.getActive(this.cards, this.current)
-      }
-
-    },
-    next: function (){
-
-      if (this.current < this.cards.length -1){
-        this.current +=1
-        this.activecards = this.getActive(this.cards, this.current)
-      }
-    },
     getActive: function (source, index){
       var resultArray = {}
 
       if (source.length == 0){
-        console.log("source is empty");
         return {
           "center": {
             "title": "No Cards available",
@@ -113,12 +97,10 @@ export default {
       if (next < source.length && next >= 1){
         resultArray.right = source[next]
       }
-
-      this.getChildren(this.current);
       return resultArray
     },
     hasChildren: function (index){
-      if (this.cards[index].children){
+      if (this.orbitCards[index].children){
         return true;
       } 
       
@@ -126,14 +108,24 @@ export default {
     },
     getChildren: function (index){
       var children = []
-      if (this.cards[index].children){
-        children = this.cards[index].children;
+      if (this.orbitCards[index].children){
+        children = this.orbitCards[index].children;
       }
+
       return children;
+    },
+    cardChosen: function (card){
+      this.$emit('cardChosen', card);
+      var children = this.orbitCards[this.current].children;
+      if (!children.empty){
+         this.orbitCards = children
+         this.activecards = this.getActive(this.orbitCards, 1)
+      }
+      
     }
   },
   mounted: function(){
-    this.activecards = this.getActive(this.cards, this.current);
+    this.activecards = this.getActive(this.orbitCards, this.current);
   }
 }
 </script>

@@ -1,14 +1,24 @@
 <template>
-  <div id="app">
+  <div id="app" v-on:keyup.left="prev()">
+    <river
+      :cards = "riverCards"
+    ></river>
     <orbit
       :cards = "cards"
+      :current = "current"
       :nest = "true"
+      v-on:cardChosen="addToCards($event)"
     ></orbit>
+    <div class="navigation">
+        <button id="prev" v-on:click="prev()">prev</button>
+        <button id="next" v-on:click="next()">next</button>
+    </div>
   </div>
 </template>
 
 <script>
 import Orbit from './components/Orbit.vue'
+import River from './components/River.vue'
 
 //import StackOHelper from './assets/stackoverflow-api-helper.js'
 //import Velocity from './assets/velocity.js'
@@ -16,7 +26,8 @@ import Orbit from './components/Orbit.vue'
 export default {
   name: 'app',
   components: {
-    Orbit
+    Orbit,
+    River
   },
   data (){
     return {
@@ -62,6 +73,25 @@ export default {
             "content": "this is card 6"
         }
       ],
+      riverCards: []
+    }
+  },
+  methods:{
+    addToCards: function(card){
+      this.riverCards.push(card)
+    },
+    prev: function (){
+
+      if (this.current > 0){
+        this.current -= 1
+      }
+
+    },
+    next: function (){
+
+      if (this.current < this.cards.length -1){
+        this.current +=1
+      }
     }
   }
 }

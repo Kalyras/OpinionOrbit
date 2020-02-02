@@ -15,20 +15,39 @@ body {
     display: flex;
 }
 
+.card {
+    background-color: #f3f3f3;
+    padding: 20px;
+    margin: 20px;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.invis-card {
+    visibility: hidden;
+}
+
 .card-l {
     left: 0;
     width: 25%;
     margin: 5%;
+    position: absolute;
     background-color: #d0d0d0;
 }
 
 .card-c {
+    position: absolute;
     left: 30%;
     width: 25%;
     margin: 5%;
 }
 
 .card-r {
+    position: absolute;
     left: 60%;
     width: 25%;
     margin: 5%;

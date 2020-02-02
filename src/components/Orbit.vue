@@ -8,21 +8,25 @@
         :content="card.content"
       ></card>-->
 
-      <card class ="card-l"
-      v-if="activecards[0]"
-        :title="activecards[0].title"
-        :content="activecards[0].content"
+      <card class="card"
+      v-if="activecards.left"
+        :title="activecards.left.title"
+        :content="activecards.left.content"
       ></card>
-       <card class ="card-c"
-       v-if="activecards[1]"
-        :title="activecards[1].title"
-        :content="activecards[1].content"
+      <div class="invis-card card" v-else>
+      </div>
+       <card class="card"
+       v-if="activecards.center"
+        :title="activecards.center.title"
+        :content="activecards.center.content"
       ></card>
-       <card class ="card-r"
-       v-if="activecards[2]"
-        :title="activecards[2].title"
-        :content="activecards[2].content"
+       <card class="card"
+       v-if="activecards.right"
+        :title="activecards.right.title"
+        :content="activecards.right.content"
       ></card>
+      <div class="invis-card card" v-else>
+      </div>
 
     <div class="navigation">
         <button id="prev" v-on:click="prev()">prev</button>
@@ -58,12 +62,12 @@ export default {
   data (){
     return {
       current: 1,
-      activecards: [
-        {
+      activecards: {
+        "center": {
           "title": "No Cards",
           "content": "There is currently no content available"
         }
-      ]
+      }
     }
   },
   methods: {
@@ -83,31 +87,31 @@ export default {
       }
     },
     getActive: function (source, index){
-      var resultArray = []
+      var resultArray = {}
 
       if (source.length == 0){
         console.log("source is empty");
-        return [
-          {
+        return {
+          "center": {
             "title": "No Cards available",
             "content" : " --- "
           }
-        ]
+        }
       }
 
       var next = index + 1
       var prev = index - 1
 
-      if (prev < source.length -1 && prev >= 0){
-        resultArray.push(source[prev]);
+      if (index < source.length && index >= 0){
+        resultArray.center = source[index];
       }
 
-      if (index < source.length && index >= 0){
-        resultArray.push(source[index]);
+      if (prev < source.length -1 && prev >= 0){
+        resultArray.left = source[prev];
       }
 
       if (next < source.length && next >= 1){
-        resultArray.push(source[next])
+        resultArray.right = source[next]
       }
 
       this.getChildren(this.current);

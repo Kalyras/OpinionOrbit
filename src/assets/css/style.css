@@ -5,10 +5,23 @@ body {
     font-family: sans-serif;
 }
 
+h1 {
+    color: white;
+}
+
 .orbit {
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+.tag {
+    background-color: #121220;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    display: inline-block;
 }
 
 .navigation {
@@ -17,9 +30,14 @@ body {
 
 .card {
     background-color: #f3f3f3;
-    padding: 20px;
+    padding: 40px;
     margin: 20px;
     flex-grow: 1;
+}
+
+.river {
+    max-width: 80%;
+    margin: auto;
 }
 
 .card-title {

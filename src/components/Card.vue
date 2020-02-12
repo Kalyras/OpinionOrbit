@@ -1,7 +1,10 @@
 <template>
 <div class="card" v-on:click="putToRiver()">
     <div class="card-title">{{title}}</div>
-    <div class="card-content">{{content}}</div>
+    <div class="tag-container">
+        <div class="tag"  v-for="tag in tags" v-bind:key="tag">{{tag}}</div>
+    </div>
+    <div v-html="content" class="card-content">{{content}}</div>
 </div>
 </template>
 
@@ -10,7 +13,8 @@
         name: 'card',
         props: {
             title: String,
-            content: String
+            content: String,
+            tags: Array
         },
         methods: {
             putToRiver: function (){

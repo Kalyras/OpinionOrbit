@@ -4,7 +4,8 @@
       v-for="card in cards"
       v-bind:key="card.title"
       :title = "card.title"
-      :content = "card.content"
+      :content = "card.body"
+      :tags = "card.tags"
     >
     </card>
   </div>

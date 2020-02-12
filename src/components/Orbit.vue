@@ -3,8 +3,9 @@
     <div class="orbit">
       <card
         v-if="activecards.left"
-        :title="activecards.left.title"
-        :content="activecards.left.content"
+        :title="activecards.left.answer_id"
+        :content="activecards.left.body"
+        :tags="activecards.left.tags"
       ></card>
       <div class="invis-card card" v-else>
       </div>
@@ -12,14 +13,16 @@
        <card
        v-on:cardChosen="cardChosen($event)"
        v-if="activecards.center"
-        :title="activecards.center.title"
-        :content="activecards.center.content"
+        :title="activecards.center.answer_id"
+        :content="activecards.center.body"
+        :tags="activecards.center.tags"
       ></card>
 
        <card
        v-if="activecards.right"
-        :title="activecards.right.title"
-        :content="activecards.right.content"
+        :title="activecards.right.answer_id"
+        :content="activecards.right.body"
+        :tags="activecards.right.tags"
       ></card>
       <div class="invis-card card" v-else>
       </div>
@@ -65,7 +68,7 @@ export default {
       activecards: {
         "center": {
           "title": "No Cards",
-          "content": "There is currently no content available"
+          "body": "There is currently no content available"
         }
       }
     }
@@ -78,7 +81,7 @@ export default {
         return {
           "center": {
             "title": "No Cards available",
-            "content" : " --- "
+            "body" : " --- "
           }
         }
       }
@@ -100,6 +103,7 @@ export default {
       return resultArray
     },
     hasChildren: function (index){
+      console.log(this.orbitCards[index])
       if (this.orbitCards[index].children){
         return true;
       } 

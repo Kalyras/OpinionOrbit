@@ -1,13 +1,10 @@
 module.exports = {
     presets: [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "node": "10"
-                }
+        ["env", {
+            "targets": {
+                "node": "current"
             }
-        ],
+        }],
         '@vue/cli-plugin-babel/preset'
     ]
 }

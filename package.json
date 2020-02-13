@@ -2,6 +2,9 @@
     "name": "opinion-orbit",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": "12.11.1"
+    },
     "scripts": {
         "serve": "vue-cli-service serve",
         "start": "node server.js",

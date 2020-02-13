@@ -1,12 +1,12 @@
-import { getQuestion, getAnswers } from './stackoverflow-api-helper'
+var stackApi = require('./stackoverflow-api-helper')
 
 /**
  * 
  * @param {*} postId 
  */
-function getCards(postId) {
-    var postPromise = getQuestion(postId);
-    var answersPromise = getAnswers(postId);
+const getCards = function(postId) {
+    var postPromise = stackApi.getQuestion(postId);
+    var answersPromise = stackApi.getAnswers(postId);
 
     var cards = []
 
@@ -57,4 +57,4 @@ function createCard(title, content, tags) {
     return card
 }
 
-export { getCards }
+module.exports = getCards

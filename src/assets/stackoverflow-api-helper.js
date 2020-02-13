@@ -41,5 +41,7 @@ const getAnswers = (questionId) => {
     return promise;
 };
 
-exports.getQuestion = getQuestion;
-exports.getAnswers = getAnswers;
+module.exports = {
+    getQuestion: getQuestion,
+    getAnswers: getAnswers
+}

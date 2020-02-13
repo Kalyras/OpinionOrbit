@@ -27,7 +27,7 @@ import Orbit from './components/Orbit.vue'
 import River from './components/River.vue'
 
 import StackOHelper from './assets/stackoverflow-api-helper.js'
-import {getCards} from './assets/stack-overflow-facade.js'
+import StackFacade from './assets/stack-overflow-facade.js'
 //import Velocity from './assets/velocity.js'
 
 export default {
@@ -90,7 +90,7 @@ export default {
       })
     },
     getCards: function(postId){
-      var cardsPromise = getCards(postId);
+      var cardsPromise = StackFacade(postId);
       const vm = this
 
       cardsPromise.then(function(val){

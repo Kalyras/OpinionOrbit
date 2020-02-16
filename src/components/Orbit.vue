@@ -9,7 +9,7 @@
       ></card>
       <div class="invis-card card" v-else>
       </div>
-      <button id="prev" v-on:click="prev()">prev</button>
+      <button id="prev" v-if="orbitCards.length > 0" v-on:click="prev()">prev</button>
 
       <card
        v-on:cardChosen="cardChosen($event)"
@@ -18,7 +18,7 @@
         :content="activecards.center.body"
         :tags="activecards.center.tags"
       ></card>
-      <button id="next" v-on:click="next()">next</button>
+      <button id="next" v-if="orbitCards.length > 0" v-on:click="next()">next</button>
 
       <card
         v-if="activecards.right"
@@ -119,11 +119,9 @@ export default {
       return resultArray
     },
     hasChildren: function (index){
-      console.log(this.orbitCards[index])
-      if (this.orbitCards[index].children){
+      if (this.orbitCards[index] && this.orbitCards[index].children){
         return true;
       } 
-      
       return false;
     },
     getChildren: function (index){
@@ -136,17 +134,18 @@ export default {
     },
     cardChosen: function (card){
       this.$emit('cardChosen', card);
+      console.log(this.orbitCards[this.current]);
       
-      var children = this.orbitCards[this.current].children;
-      if (!children.empty){
-         this.orbitCards = children
-         this.activecards = this.getActive(this.orbitCards, 1)
+      var currentCard = this.orbitCards[this.current];
+      if (currentCard.children && !currentCard.children.empty){
+        console.log("selected card has children")
+         //this.orbitCards = currentCard.children
+         //this.activecards = this.getActive(this.orbitCards, 1)
       } else {
         console.log("children is empty");
         this.orbitCards = [];
         this.activecards = [];
       }
-      
     }
   },
   mounted: function(){

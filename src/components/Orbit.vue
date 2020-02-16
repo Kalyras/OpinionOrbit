@@ -9,25 +9,25 @@
       ></card>
       <div class="invis-card card" v-else>
       </div>
+      <button id="prev" v-on:click="prev()">prev</button>
 
-       <card
+      <card
        v-on:cardChosen="cardChosen($event)"
        v-if="activecards.center"
         :title="activecards.center.answer_id"
         :content="activecards.center.body"
         :tags="activecards.center.tags"
       ></card>
+      <button id="next" v-on:click="next()">next</button>
 
-       <card
-       v-if="activecards.right"
+      <card
+        v-if="activecards.right"
         :title="activecards.right.answer_id"
         :content="activecards.right.body"
         :tags="activecards.right.tags"
       ></card>
       <div class="invis-card card" v-else>
       </div>
-
-
     </div>
 
     <orbit
@@ -58,8 +58,10 @@ export default {
       current: Number
   },
   watch: {
-    current: function(newVal){
+    orbitCurrent: function(newVal){
+      console.log(newVal);
       this.activecards = this.getActive(this.orbitCards, newVal);
+      console.log(this.activecards);
     }
   },
   data (){
@@ -70,10 +72,24 @@ export default {
           "title": "No Cards",
           "body": "There is currently no content available"
         }
-      }
+      },
+      orbitCurrent: this.current
     }
   },
   methods: {
+    prev: function (){
+
+      if (this.orbitCurrent > 0){
+        this.orbitCurrent -= 1
+      }
+
+    },
+    next: function (){
+
+      if (this.orbitCurrent < this.cards.length -1){
+        this.orbitCurrent +=1
+      }
+    },
     getActive: function (source, index){
       var resultArray = {}
 
@@ -120,10 +136,15 @@ export default {
     },
     cardChosen: function (card){
       this.$emit('cardChosen', card);
+      
       var children = this.orbitCards[this.current].children;
       if (!children.empty){
          this.orbitCards = children
          this.activecards = this.getActive(this.orbitCards, 1)
+      } else {
+        console.log("children is empty");
+        this.orbitCards = [];
+        this.activecards = [];
       }
       
     }

@@ -1,8 +1,8 @@
 <template>
-  <div id="app" v-on:keyup.left="prev()">
+  <div id="app">
     <div>
       <input id="questionId" v-model="questionId" placeholder="Enter quesition ID">
-      <button v-on:click="getCards(questionId)">Search</button>
+      <button v-on:click="getQuestion(questionId)">Search</button>
     </div>
     <river
       :cards = "riverCards"
@@ -15,10 +15,6 @@
       :nest = "true"
       v-on:cardChosen="addToCards($event)"
     ></orbit>
-    <div class="navigation">
-        <button id="prev" v-on:click="prev()">prev</button>
-        <button id="next" v-on:click="next()">next</button>
-    </div>
   </div>
 </template>
 
@@ -47,19 +43,6 @@ export default {
   methods:{
     addToCards: function(card){
       this.riverCards.push(card)
-    },
-    prev: function (){
-
-      if (this.current > 0){
-        this.current -= 1
-      }
-
-    },
-    next: function (){
-
-      if (this.current < this.cards.length -1){
-        this.current +=1
-      }
     },
     getQuestion: function(id){
       var questionPromise = StackOHelper.getQuestion(id);

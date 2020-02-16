@@ -9,8 +9,10 @@
       ></card>
       <div class="invis-card card" v-else>
       </div>
-      <button id="prev" v-if="orbitCards.length > 0" v-on:click="prev()">prev</button>
-
+      
+<button type="button" id="prev" v-if="orbitCards.length > 0" v-on:click="prev()" class="btn direction-btn btn-labeled "><span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i>
+              </span>Prev</button>
+      
       <card
        v-on:cardChosen="cardChosen($event)"
        v-if="activecards.center"
@@ -18,8 +20,10 @@
         :content="activecards.center.body"
         :tags="activecards.center.tags"
       ></card>
-      <button id="next" v-if="orbitCards.length > 0" v-on:click="next()">next</button>
-
+      
+<button type="button" id="next"  v-if="orbitCards.length > 0" v-on:click="next()" class="btn direction-btn btn-labeled ">
+                
+                Next <span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span></button>
       <card
         v-if="activecards.right"
         :title="activecards.right.answer_id"
@@ -155,4 +159,8 @@ export default {
 </script>
 
 <style>
+
+code{
+  white-space: normal;
+}
 </style>

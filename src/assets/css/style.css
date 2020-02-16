@@ -1,7 +1,8 @@
 body {
-    background-image: radial-gradient(circle, #121220, #31314d);
+    /* background-image: radial-gradient(circle, #121220, #31314d); */
+    background-image: url('../background.jpg');
     background-position: center;
-    background-size: cover;
+    background-size: auto;
     font-family: sans-serif;
 }
 
@@ -78,3 +79,50 @@ h1 {
     background-color: white;
     position: absolute;
 }
+
+
+.navbar{
+    justify-content: left;
+    font-family: 'Roboto Slab', Helvetica, Arial, sans-serif;
+  }
+  .search-custom{
+    margin:20px;
+  }
+  
+  .navbar-brand{
+    color:white !important;
+    font-size: 40px;
+  }
+  input{
+    padding:5px;
+    margin:5px;
+  }
+  .btn-label {
+    position: relative;
+  
+    display: inline-block;
+    padding: 6px 7px;
+    
+    border-radius: 3px 0 0 3px;
+    }
+  
+  
+  .btn-labeled {padding-top: 0;
+  padding-bottom: 0;
+  }
+  
+  .direction-btn{
+    background-color:white;
+    margin:10px;
+    
+  height: 20%;
+  align-self: center;
+   
+  
+  }
+  
+  .search-btn:hover{
+    background-color:white;
+    color:black;
+  
+  }

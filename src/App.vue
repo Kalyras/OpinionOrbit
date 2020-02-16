@@ -1,8 +1,16 @@
 <template>
   <div id="app">
-    <div>
+        <div class="nav_custom">
+         <nav class="navbar navbar-light bg-custom">
+        <a class="navbar-brand" href="#">
+          <img src="./assets/orbit.png" width="55" height="55" class="d-inline-block" alt="">
+          Opinion Orbit
+        </a>
+      </nav>
+      </div>
+    <div class="search-custom">
       <input id="questionId" v-model="questionId" placeholder="Enter quesition ID">
-      <button v-on:click="getQuestion(questionId)">Search</button>
+      <button class="btn btn-danger search-btn" v-on:click="getQuestion(questionId)">Search</button>
     </div>
     <river
       :cards = "riverCards"
@@ -85,12 +93,16 @@ export default {
 }
 </script>
 
+
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  
 }
+
+
 </style>
+

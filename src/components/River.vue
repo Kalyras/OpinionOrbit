@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div v-if="!cards.length == 0">
     <card
       v-for="card in cards"
       v-bind:key="card.title"
-      :title = "card.title"
-      :content = "card.body"
+      :title = "card.title ? card.title : ''"
+      :body = "card.body"
       :tags = "card.tags"
     >
     </card>
@@ -20,6 +20,11 @@ export default {
   },
   props: {
       cards: Array,
+  },
+  watch:{
+    cards: function(newVal){
+      console.log(newVal);
+    }
   }
 }
 </script>

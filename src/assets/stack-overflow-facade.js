@@ -1,50 +1,77 @@
 var stackApi = require('./stackoverflow-api-helper')
 
 /**
- * 
- * @param {*} postId 
+ * Retrives one Card with one level of Children
+ * @param {String} postId 
  */
-const getCards = function(postId) {
-    var postPromise = stackApi.getQuestion(postId);
-    var answersPromise = stackApi.getAnswers(postId);
+const getCard = function(postId) {
+    console.log("get Card");
+    var postTypeProm = stackApi.getPostType(postId);
 
-    var cards = []
+    //first promise: get post type and return corresponding promise (question or answer)
+    var promise = postTypeProm.then(
+            function(postType) {
+                console.log(postType);
+                var postProm;
+                if (postType == "question") {
+                    postProm = stackApi.getQuestion(postId);
+                } else if (postType == "answer") {
+                    postProm = stackApi.getAnswers(postId, true);
+                } else {
+                    throw {
+                        name: "PostTypeUnkown",
+                        message: "The type of the requested post is unknown"
+                    }
+                }
+                return Promise.all([postProm, postType])
+            }
+        )
+        //Second promise: work with first promise and retrieve question or answer
+        .then(
+            function([post, postType]) {
+                var postJson = JSON.parse(post);
+                postJson = postJson.items[0];
 
-    var promise = new Promise(function(resolve) {
-        postPromise.then(function(post) {
-            answersPromise.then(function(answers) {
-                var postJson = JSON.parse(post)
-                cards.push(
-                    createCard(
-                        postJson.items[0].title,
-                        postJson.items[0].body,
-                        postJson.items[0].tags,
+                var title = postJson.title ? postJson.title : "";
+                const content = postJson.body;
+                const tags = postJson.tags;
 
-                    ))
+                var card = createCard(title, content, tags);
 
-                console.log(cards)
-                console.log(cards[0])
+                var childProm;
 
-                cards[0].children = []
+                if (postType == "question") {
+                    childProm = stackApi.getAnswers(postId, true);
+                } else if (postType == "answer") {
+                    childProm = stackApi.getComments(postId);
+                }
 
-                var answersJson = JSON.parse(answers)
-                answersJson.items.forEach(answer => {
-                    cards[0].children.push(
-                        createCard(
-                            answer.answer_id,
-                            answer.body,
-                            answer.tags
-                        )
-                    )
+                return Promise.all([childProm, card]);
+            }
+        )
+        //third promise: retrieve children
+        .then(
+            function([children, card]) {
+                const childrenJSON = JSON.parse(children);
+                var postChildren = []
+
+                childrenJSON.items.forEach(child => {
+                    var title = child.title ? child.title : "";
+                    var content = child.body;
+                    var tags = child.tags ? child.tags : [];
+                    postChildren.push(createCard(title, content, tags));
                 })
 
-                console.log(cards)
-                resolve(cards)
-            })
-        })
-    })
+                var cardPromise = new Promise(function(resolve) {
+                    card.children = postChildren
+                    resolve(card);
+                })
 
-    return promise
+                return cardPromise;
+            }
+        )
+
+    return promise;
 }
 
 function createCard(title, content, tags) {
@@ -57,4 +84,4 @@ function createCard(title, content, tags) {
     return card
 }
 
-module.exports = getCards
+module.exports = getCard;

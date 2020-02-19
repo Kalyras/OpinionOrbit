@@ -3,33 +3,43 @@
     <div class="orbit">
       <card
         v-if="activecards.left"
-        :title="activecards.left.answer_id"
-        :content="activecards.left.body"
+        :title="activecards.left.title"
+        :body="activecards.left.body"
         :tags="activecards.left.tags"
       ></card>
+      
       <div class="invis-card card" v-else>
       </div>
       
-<button type="button" id="prev" v-if="orbitCards.length > 0" v-on:click="prev()" class="btn direction-btn btn-labeled "><span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i>
-              </span>Prev</button>
+      <button type="button" id="prev" v-if="orbitCards.length > 0" v-on:click="prev()" class="btn direction-btn btn-labeled ">
+              <span class="btn-label">
+                <i class="glyphicon glyphicon-chevron-left"></i>
+              </span>
+              Prev
+      </button>
       
       <card
        v-on:cardChosen="cardChosen($event)"
        v-if="activecards.center"
-        :title="activecards.center.answer_id"
-        :content="activecards.center.body"
+        :title="activecards.center.title"
+        :body="activecards.center.body"
         :tags="activecards.center.tags"
       ></card>
       
-<button type="button" id="next"  v-if="orbitCards.length > 0" v-on:click="next()" class="btn direction-btn btn-labeled ">
-                
-                Next <span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span></button>
+      <button type="button" id="next" v-if="orbitCards.length > 0" v-on:click="next()" class="btn direction-btn btn-labeled ">
+          Next 
+          <span class="btn-label">
+            <i class="glyphicon glyphicon-chevron-right"></i>
+          </span>
+      </button>
+      
       <card
         v-if="activecards.right"
-        :title="activecards.right.answer_id"
-        :content="activecards.right.body"
+        :title="activecards.right.title"
+        :body="activecards.right.body"
         :tags="activecards.right.tags"
       ></card>
+      
       <div class="invis-card card" v-else>
       </div>
     </div>
@@ -63,9 +73,7 @@ export default {
   },
   watch: {
     orbitCurrent: function(newVal){
-      console.log(newVal);
       this.activecards = this.getActive(this.orbitCards, newVal);
-      console.log(this.activecards);
     }
   },
   data (){
@@ -138,15 +146,10 @@ export default {
     },
     cardChosen: function (card){
       this.$emit('cardChosen', card);
-      console.log(this.orbitCards[this.current]);
       
       var currentCard = this.orbitCards[this.current];
-      if (currentCard.children && !currentCard.children.empty){
-        console.log("selected card has children")
-         //this.orbitCards = currentCard.children
-         //this.activecards = this.getActive(this.orbitCards, 1)
-      } else {
-        console.log("children is empty");
+
+      if (typeof currentCard.children == "undefined" || currentCard.children.length == 0){
         this.orbitCards = [];
         this.activecards = [];
       }

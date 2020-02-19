@@ -4,7 +4,7 @@
     <div class="tag-container">
         <div class="tag"  v-for="tag in tags" v-bind:key="tag">{{tag}}</div>
     </div>
-    <div v-html="content" class="card-content">{{content}}</div>
+    <div v-html="body" class="card-content">{{body}}</div>
 </div>
 </template>
 
@@ -13,14 +13,16 @@
         name: 'card',
         props: {
             title: String,
-            content: String,
-            tags: Array
+            body: String,
+            tags: Array,
+            children: Array
         },
         methods: {
             putToRiver: function (){
                 this.$emit('cardChosen', {
                     "title" : this.title,
-                    "content": this.content
+                    "body": this.body,
+                    "children": this.children ? this.children : [],
                 });
             }
         }

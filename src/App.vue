@@ -12,12 +12,12 @@
 
     <div class="search-custom">
       <input id="questionId" v-model="questionId" placeholder="Enter quesition ID">
-      <button class="btn btn-danger search-btn" v-on:click="getCard(questionId)">Search</button>
+      <button class="btn btn-danger search-btn" v-on:click="setSearchedCard(questionId)">Search</button>
     </div>
 
-    <river
+    <river class="river"
+      v-on:setBaseCard = "setOrbitCards($event.id)"
       :cards = "riverCards"
-      class="river"
     ></river>
 
     <orbit
@@ -35,7 +35,6 @@
 import Orbit from './components/Orbit.vue'
 import River from './components/River.vue'
 
-//import StackOHelper from './assets/stackoverflow-api-helper.js'
 import StackFacade from './assets/stack-overflow-facade.js'
 //import Velocity from './assets/velocity.js'
 
@@ -54,22 +53,31 @@ export default {
     }
   },
   methods:{
-    addToRiver: function(card){
-      this.riverCards.push(card); 
+    setSearchedCard: function(postId){
+      const vm = this;
+      var cardPromise = StackFacade(postId);
+      cardPromise.then(function(val){
+        vm.addToRiver(val);
+        vm.cards = val.children ? val.children : [];
+      });
     },
-    getCard: function(postId){
-      try{
-        var cardPromise = StackFacade(postId);
-        const vm = this
+    addToRiver: function(card){
+      this.riverCards.push(card);
+      this.setOrbitCards(card.id);
+    },
+    setOrbitCards: function(postId){
+      console.log("Set orbit cards for post ID: " + postId);
+      const vm = this;
+      var cardPromise = StackFacade(postId);
         cardPromise.then(function(val){
-          vm.addToRiver(val);
-          vm.cards = val.children
-        })
-      } catch (e){
-        console.log(e);
-      }
-      
-      
+          vm.cards = val.children ? val.children : []; 
+        }).catch(function(error){
+          if(error.name == "PostTypeUnkown"){
+            vm.cards = [];
+          } else {
+            throw error;
+          }
+        });
     }
   }
 }
@@ -82,7 +90,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  
 }
 
 

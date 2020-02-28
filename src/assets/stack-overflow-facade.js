@@ -5,19 +5,18 @@ var stackApi = require('./stackoverflow-api-helper')
  * @param {String} postId 
  */
 const getCard = function(postId) {
-    console.log("get Card");
     var postTypeProm = stackApi.getPostType(postId);
 
     //first promise: get post type and return corresponding promise (question or answer)
     var promise = postTypeProm.then(
             function(postType) {
-                console.log(postType);
                 var postProm;
                 if (postType == "question") {
                     postProm = stackApi.getQuestion(postId);
                 } else if (postType == "answer") {
-                    postProm = stackApi.getAnswers(postId, true);
+                    postProm = stackApi.getAnswer(postId, true);
                 } else {
+                    console.log("Post Type is not answer nor question");
                     throw {
                         name: "PostTypeUnkown",
                         message: "The type of the requested post is unknown"
@@ -35,31 +34,40 @@ const getCard = function(postId) {
                 var title = postJson.title ? postJson.title : "";
                 const content = postJson.body;
                 const tags = postJson.tags;
-
-                var card = createCard(title, content, tags);
-
                 var childProm;
+                var id;
 
                 if (postType == "question") {
+                    id = postJson.question_id;
                     childProm = stackApi.getAnswers(postId, true);
                 } else if (postType == "answer") {
+                    id = postJson.answer_id;
                     childProm = stackApi.getComments(postId);
                 }
 
-                return Promise.all([childProm, card]);
+                var card = createCard(id, title, content, tags);
+
+                return Promise.all([childProm, card, postType]);
             }
         )
         //third promise: retrieve children
         .then(
-            function([children, card]) {
+            function([children, card, postType]) {
                 const childrenJSON = JSON.parse(children);
                 var postChildren = []
 
                 childrenJSON.items.forEach(child => {
+                    var id;
+                    if (postType == "question") {
+                        id = child.answer_id;
+                    } else {
+                        id = child.comment_id;
+                    }
+
                     var title = child.title ? child.title : "";
                     var content = child.body;
                     var tags = child.tags ? child.tags : [];
-                    postChildren.push(createCard(title, content, tags));
+                    postChildren.push(createCard(id, title, content, tags));
                 })
 
                 var cardPromise = new Promise(function(resolve) {
@@ -74,8 +82,9 @@ const getCard = function(postId) {
     return promise;
 }
 
-function createCard(title, content, tags) {
+function createCard(id, title, content, tags) {
     var card = {
+        "id": id,
         "title": title,
         "body": content,
         "tags": tags

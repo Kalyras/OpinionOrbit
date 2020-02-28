@@ -1,11 +1,12 @@
 <template>
-  <div v-if="!cards.length == 0">
+  <div v-if="!riverCards.length == 0">
     <card
-      v-for="card in cards"
+      v-for="(card, index) in riverCards"
       v-bind:key="card.title"
-      :title = "card.title ? card.title : ''"
-      :body = "card.body"
-      :tags = "card.tags"
+      v-on:goBackTo="goBackTo($event)"
+      :card = "card"
+      :inRiver = "true"
+      :parentIndex = "index-1"
     >
     </card>
   </div>
@@ -21,10 +22,16 @@ export default {
   props: {
       cards: Array,
   },
-  watch:{
-    cards: function(newVal){
-      console.log(newVal);
+  data() {
+    return{
+      riverCards: this.cards
     }
-  }
+  },
+  methods:{
+    goBackTo: function(index){
+      this.riverCards.splice(index+1);
+      this.$emit('setBaseCard', this.riverCards[index]);
+    }
+  },
 }
 </script>

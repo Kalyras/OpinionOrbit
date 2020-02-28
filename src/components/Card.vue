@@ -1,10 +1,14 @@
 <template>
 <div class="card" v-on:click="putToRiver()">
-    <div class="card-title">{{title}}</div>
+    <div class="card-title">{{card.title}}</div>
     <div class="tag-container">
-        <div class="tag"  v-for="tag in tags" v-bind:key="tag">{{tag}}</div>
+        <div class="tag"  v-for="tag in card.tags" v-bind:key="tag">{{tag}}</div>
     </div>
-    <div v-html="body" class="card-content">{{body}}</div>
+    <div v-html="card.body" class="card-content"></div>
+    <button
+        v-if="inRiver && parentIndex >= 0"
+        v-on:click="goBackTo(parentIndex)"
+    >Up</button>
 </div>
 </template>
 
@@ -12,18 +16,16 @@
     export default {
         name: 'card',
         props: {
-            title: String,
-            body: String,
-            tags: Array,
-            children: Array
+            card: Object,
+            inRiver: Boolean,
+            parentIndex: Number,
         },
         methods: {
             putToRiver: function (){
-                this.$emit('cardChosen', {
-                    "title" : this.title,
-                    "body": this.body,
-                    "children": this.children ? this.children : [],
-                });
+                this.$emit('cardChosen', this.card);
+            },
+            goBackTo: function(parentIndex){
+                this.$emit('goBackTo', parentIndex);
             }
         }
     }

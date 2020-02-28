@@ -13,8 +13,11 @@ const getPostType = (id) => {
         http.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status == 200) {
                 const parsed = JSON.parse(http.responseText);
-                const type = parsed.items[0].post_type
-                console.log(type);
+                var type = "comment";
+                if (parsed.items.length != 0) {
+                    type = parsed.items[0].post_type
+                }
+
                 resolve(type);
             } else if (this.status === 500) {
                 reject(http.responseText);
@@ -79,6 +82,31 @@ const getAnswers = (questionId, withbody) => {
     return promise;
 };
 
+const getAnswer = (answerId, withbody) => {
+    const http = new XMLHttpRequest();
+    var url = "https://api.stackexchange.com/answers/" + answerId + "?site=stackoverflow";
+
+    if (withbody) {
+        url += "&filter=withbody";
+    }
+
+    http.open("GET", url);
+
+    var promise = new Promise(function(resolve, reject) {
+        http.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status == 200) {
+                resolve(http.responseText);
+            } else if (this.status === 500) {
+                reject(http.responseText);
+            }
+        }
+    })
+
+    http.send();
+
+    return promise;
+}
+
 const getComments = (postId) => {
     const http = new XMLHttpRequest();
     const url = "https://api.stackexchange.com/posts/" + postId + "/comments?site=stackoverflow&filter=withbody";
@@ -104,5 +132,6 @@ module.exports = {
     getQuestion: getQuestion,
     getAnswers: getAnswers,
     getComments: getComments,
-    getPostType: getPostType
+    getPostType: getPostType,
+    getAnswer: getAnswer
 }

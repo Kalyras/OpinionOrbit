@@ -3,9 +3,7 @@
     <div class="orbit">
       <card
         v-if="activecards.left"
-        :title="activecards.left.title"
-        :body="activecards.left.body"
-        :tags="activecards.left.tags"
+        :card = "activecards.left"
       ></card>
       
       <div class="invis-card card" v-else>
@@ -21,9 +19,7 @@
       <card
        v-on:cardChosen="cardChosen($event)"
        v-if="activecards.center"
-        :title="activecards.center.title"
-        :body="activecards.center.body"
-        :tags="activecards.center.tags"
+       :card = "activecards.center"
       ></card>
       
       <button type="button" id="next" v-if="orbitCards.length > 0" v-on:click="next()" class="btn direction-btn btn-labeled ">
@@ -35,9 +31,7 @@
       
       <card
         v-if="activecards.right"
-        :title="activecards.right.title"
-        :body="activecards.right.body"
-        :tags="activecards.right.tags"
+        :card = "activecards.right"
       ></card>
       
       <div class="invis-card card" v-else>
@@ -74,6 +68,10 @@ export default {
   watch: {
     orbitCurrent: function(newVal){
       this.activecards = this.getActive(this.orbitCards, newVal);
+    },
+    cards: function(newVal){
+      this.orbitCards = newVal;
+      this.activecards = this.getActive(this.orbitCards, 0);
     }
   },
   data (){
@@ -146,18 +144,11 @@ export default {
     },
     cardChosen: function (card){
       this.$emit('cardChosen', card);
-      
-      var currentCard = this.orbitCards[this.current];
-
-      if (typeof currentCard.children == "undefined" || currentCard.children.length == 0){
-        this.orbitCards = [];
-        this.activecards = [];
-      }
     }
   },
   mounted: function(){
     this.activecards = this.getActive(this.orbitCards, this.current);
-  }
+  },
 }
 </script>
 

@@ -1,3 +1,5 @@
+const apiKey = "WfiI13ik0dwu*owQpLaV2A(("
+
 /**
  * Returns a promise with the type of the post with
  * the given Id (answer or question)
@@ -5,7 +7,7 @@
  */
 const getPostType = (id) => {
     const http = new XMLHttpRequest();
-    const url = "https://api.stackexchange.com/posts/" + id + "?site=stackoverflow";
+    const url = "https://api.stackexchange.com/posts/" + id + "?site=stackoverflow&key=" + apiKey;
 
     http.open("GET", url);
 
@@ -32,7 +34,7 @@ const getPostType = (id) => {
 
 const getQuestion = (id) => {
     const http = new XMLHttpRequest();
-    const url = "https://api.stackexchange.com/questions/" + id + "?site=stackoverflow&filter=withbody";
+    const url = "https://api.stackexchange.com/questions/" + id + "?site=stackoverflow&filter=withbody&key=" + apiKey;
 
     http.open("GET", url);
 
@@ -59,7 +61,7 @@ const getQuestion = (id) => {
  */
 const getAnswers = (questionId, withbody) => {
     const http = new XMLHttpRequest();
-    var url = "https://api.stackexchange.com/questions/" + questionId + "/answers?site=stackoverflow";
+    var url = "https://api.stackexchange.com/questions/" + questionId + "/answers?site=stackoverflow&key=" + apiKey;
 
     if (withbody) {
         url += "&filter=withbody";
@@ -84,7 +86,7 @@ const getAnswers = (questionId, withbody) => {
 
 const getAnswer = (answerId, withbody) => {
     const http = new XMLHttpRequest();
-    var url = "https://api.stackexchange.com/answers/" + answerId + "?site=stackoverflow";
+    var url = "https://api.stackexchange.com/answers/" + answerId + "?site=stackoverflow&key=" + apiKey;
 
     if (withbody) {
         url += "&filter=withbody";
@@ -109,7 +111,7 @@ const getAnswer = (answerId, withbody) => {
 
 const getComments = (postId) => {
     const http = new XMLHttpRequest();
-    const url = "https://api.stackexchange.com/posts/" + postId + "/comments?site=stackoverflow&filter=withbody";
+    const url = "https://api.stackexchange.com/posts/" + postId + "/comments?site=stackoverflow&filter=withbody&key=" + apiKey;
 
     http.open("GET", url);
 
@@ -130,7 +132,7 @@ const getComments = (postId) => {
 
 const search = (term) => {
     const http = new XMLHttpRequest();
-    const url = "https://api.stackexchange.com/search?intitle='" + term + "'&site=stackoverflow&filter=withbody";
+    const url = "https://api.stackexchange.com/search?intitle='" + term + "'&site=stackoverflow&filter=withbody&key=" + apiKey;
 
     http.open("GET", url);
 

@@ -47,6 +47,10 @@ h1 {
     margin: auto;
 }
 
+.river .card {
+    width: 100%;
+}
+
 .card-title {
     font-size: 2em;
     font-weight: bold;

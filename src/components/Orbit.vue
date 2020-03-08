@@ -2,6 +2,7 @@
   <div class="orbit-container">
     <div class="orbit">
       <card
+        class="disabled"
         v-if="activecards.left"
         :card = "activecards.left"
       ></card>
@@ -30,6 +31,7 @@
       </button>
       
       <card
+        class="disabled"
         v-if="activecards.right"
         :card = "activecards.right"
       ></card>
@@ -38,12 +40,28 @@
       </div>
     </div>
 
+    <button 
+      type="button" 
+      id="down" 
+      v-if="nest && lvl2Cards.length > 0"
+      style="margin: auto; display: block"
+      v-on:click="cardChosen(activecards.center)" 
+      class="btn direction-btn btn-labeled ">
+          Go down this path 
+          <span class="btn-label">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+          </span>
+    </button>
+
     <orbit
+      class="lvl2Orbit"
       v-if = "nest && lvl2Cards.length > 0"
       :cards = "lvl2Cards"
       :nest = "false"
       :current = "1"
     ></orbit>
+
+    
 
   </div>
 </template>

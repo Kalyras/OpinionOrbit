@@ -4,6 +4,7 @@ body {
     background-position: center;
     background-size: auto;
     font-family: sans-serif;
+    background-attachment: fixed;
 }
 
 h1 {
@@ -64,27 +65,12 @@ h1 {
     visibility: hidden;
 }
 
-.card-l {
-    left: 0;
-    width: 25%;
-    margin: 5%;
-    position: absolute;
-    background-color: #d0d0d0;
+.disabled {
+    background-color: rgba(208, 208, 208, 0.96);
 }
 
-.card-c {
-    position: absolute;
-    left: 30%;
-    width: 25%;
-    margin: 5%;
-}
-
-.card-r {
-    position: absolute;
-    left: 60%;
-    width: 25%;
-    margin: 5%;
-    background-color: #d0d0d0;
+.lvl2Orbit .card {
+    background-color: rgba(208, 208, 208, 0.96);
 }
 
 #test {

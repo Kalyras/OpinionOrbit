@@ -128,10 +128,32 @@ const getComments = (postId) => {
     return promise;
 };
 
+const search = (term) => {
+    const http = new XMLHttpRequest();
+    const url = "https://api.stackexchange.com/search?intitle='" + term + "'&site=stackoverflow&filter=withbody";
+
+    http.open("GET", url);
+
+    var promise = new Promise(function(resolve, reject) {
+        http.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status == 200) {
+                resolve(http.responseText);
+            } else if (this.status === 500) {
+                reject(http.responseText);
+            }
+        }
+    })
+
+    http.send();
+
+    return promise;
+}
+
 module.exports = {
     getQuestion: getQuestion,
     getAnswers: getAnswers,
     getComments: getComments,
     getPostType: getPostType,
-    getAnswer: getAnswer
+    getAnswer: getAnswer,
+    search: search
 }

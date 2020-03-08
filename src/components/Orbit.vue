@@ -39,8 +39,8 @@
     </div>
 
     <orbit
-      v-if = "nest && this.hasChildren(this.current)"
-      :cards = "getChildren(this.current)"
+      v-if = "nest && lvl2Cards.length > 0"
+      :cards = "lvl2Cards"
       :nest = "false"
       :current = "1"
     ></orbit>
@@ -50,8 +50,8 @@
 
 <script>
 import Card from './Card.vue'
+import StackFacade from './../js/stack-overflow-facade.js'
 
-//import StackOHelper from './assets/stackoverflow-api-helper.js'
 //import Velocity from './assets/velocity.js'
 
 export default {
@@ -68,6 +68,8 @@ export default {
   watch: {
     orbitCurrent: function(newVal){
       this.activecards = this.getActive(this.orbitCards, newVal);
+      //console.log(this.activecards.center);
+      this.getChildren(this.activecards.center);
     },
     cards: function(newVal){
       this.orbitCards = newVal;
@@ -77,13 +79,9 @@ export default {
   data (){
     return {
       orbitCards: this.cards,
-      activecards: {
-        "center": {
-          "title": "No Cards",
-          "body": "There is currently no content available"
-        }
-      },
-      orbitCurrent: this.current
+      activecards: {},
+      orbitCurrent: this.current,
+      lvl2Cards: []
     }
   },
   methods: {
@@ -95,7 +93,6 @@ export default {
 
     },
     next: function (){
-
       if (this.orbitCurrent < this.cards.length -1){
         this.orbitCurrent +=1
       }
@@ -104,12 +101,7 @@ export default {
       var resultArray = {}
 
       if (source.length == 0){
-        return {
-          "center": {
-            "title": "No Cards available",
-            "body" : " --- "
-          }
-        }
+        return {}
       }
 
       var next = index + 1
@@ -117,6 +109,7 @@ export default {
 
       if (index < source.length && index >= 0){
         resultArray.center = source[index];
+        this.getChildren(source[index])
       }
 
       if (prev < source.length -1 && prev >= 0){
@@ -134,13 +127,15 @@ export default {
       } 
       return false;
     },
-    getChildren: function (index){
-      var children = []
-      if (this.orbitCards[index].children){
-        children = this.orbitCards[index].children;
-      }
+    getChildren: function (card){
+      var childrenPromise = StackFacade.getChildren(card);
+      var vm = this;
 
-      return children;
+      childrenPromise.then(function(val){
+        var lvl2 = JSON.parse(val);
+        vm.lvl2Cards = lvl2.items;
+        
+      })
     },
     cardChosen: function (card){
       this.$emit('cardChosen', card);

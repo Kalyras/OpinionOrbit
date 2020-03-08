@@ -10,6 +10,7 @@
         "start": "node server.js",
         "build": "vue-cli-service build",
         "test:unit": "vue-cli-service test:unit",
+        "test": "mocha",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
@@ -45,16 +46,14 @@
         "parserOptions": {
             "parser": "babel-eslint"
         },
-        "overrides": [
-            {
-                "files": [
-                    "**/__tests__/*.{j,t}s?(x)"
-                ],
-                "env": {
-                    "mocha": true
-                }
+        "overrides": [{
+            "files": [
+                "**/__tests__/*.{j,t}s?(x)"
+            ],
+            "env": {
+                "mocha": true
             }
-        ]
+        }]
     },
     "browserslist": [
         "> 1%",

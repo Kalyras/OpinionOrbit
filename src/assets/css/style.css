@@ -34,6 +34,12 @@ h1 {
     padding: 40px;
     margin: 20px;
     flex-grow: 1;
+    width: 25%;
+    max-height: 500px;
+}
+
+.card-content {
+    overflow: scroll;
 }
 
 .river {
@@ -80,49 +86,45 @@ h1 {
     position: absolute;
 }
 
-
-.navbar{
+.navbar {
     justify-content: left;
     font-family: 'Roboto Slab', Helvetica, Arial, sans-serif;
-  }
-  .search-custom{
-    margin:20px;
-  }
-  
-  .navbar-brand{
-    color:white !important;
+}
+
+.search-custom {
+    margin: 20px;
+}
+
+.navbar-brand {
+    color: white !important;
     font-size: 40px;
-  }
-  input{
-    padding:5px;
-    margin:5px;
-  }
-  .btn-label {
+}
+
+input {
+    padding: 5px;
+    margin: 5px;
+}
+
+.btn-label {
     position: relative;
-  
     display: inline-block;
     padding: 6px 7px;
-    
     border-radius: 3px 0 0 3px;
-    }
-  
-  
-  .btn-labeled {padding-top: 0;
-  padding-bottom: 0;
-  }
-  
-  .direction-btn{
-    background-color:white;
-    margin:10px;
-    
-  height: 20%;
-  align-self: center;
-   
-  
-  }
-  
-  .search-btn:hover{
-    background-color:white;
-    color:black;
-  
-  }
+}
+
+.btn-labeled {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.direction-btn {
+    background-color: white;
+    margin: 10px;
+    height: 20%;
+    align-self: center;
+}
+
+.search-btn:hover {
+    background-color: white;
+    color: black;
+}

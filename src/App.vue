@@ -35,7 +35,7 @@
 import Orbit from './components/Orbit.vue'
 import River from './components/River.vue'
 
-import StackFacade from './assets/stack-overflow-facade.js'
+import StackFacade from './js/stack-overflow-facade.js'
 //import Velocity from './assets/velocity.js'
 
 export default {
@@ -46,38 +46,31 @@ export default {
   },
   data (){
     return {
-      questionId: "42936588",
+      questionId: "vue child",
       current: 0,
       cards: [],
       riverCards: []
     }
   },
   methods:{
-    setSearchedCard: function(postId){
+    setSearchedCard: function(term){
       const vm = this;
-      var cardPromise = StackFacade(postId);
+      vm.cards=[];
+      var cardPromise = StackFacade.searchCard(term);
       cardPromise.then(function(val){
-        vm.addToRiver(val);
-        vm.cards = val.children ? val.children : [];
-      });
+        vm.cards = val;
+      })
     },
     addToRiver: function(card){
       this.riverCards.push(card);
-      this.setOrbitCards(card.id);
+      this.setOrbitCards(card);
     },
-    setOrbitCards: function(postId){
-      console.log("Set orbit cards for post ID: " + postId);
-      const vm = this;
-      var cardPromise = StackFacade(postId);
-        cardPromise.then(function(val){
-          vm.cards = val.children ? val.children : []; 
-        }).catch(function(error){
-          if(error.name == "PostTypeUnkown"){
-            vm.cards = [];
-          } else {
-            throw error;
-          }
-        });
+    setOrbitCards: function(card){
+      var vm = this;
+      var childrenPromise = StackFacade.getChildren(card);
+      childrenPromise.then(function(val){
+          vm.cards = JSON.parse(val);
+      });
     }
   }
 }

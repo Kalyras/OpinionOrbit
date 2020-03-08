@@ -1,4 +1,5 @@
 var stackApi = require('./stackoverflow-api-helper')
+var createCard = require('./card')
 
 /**
  * Retrives one Card with one level of Children
@@ -82,7 +83,7 @@ const getCard = function(postId) {
     return promise;
 }
 
-function createCard(id, title, content, tags) {
+/*function createCard(id, title, content, tags) {
     var card = {
         "id": id,
         "title": title,
@@ -91,6 +92,56 @@ function createCard(id, title, content, tags) {
     }
 
     return card
+}*/
+
+const searchCard = function(term) {
+    var promise = new Promise(function(resolve) {
+        var searchPromise = stackApi.search(term);
+        searchPromise.then(function(searchResult) {
+            var searchResultArray = JSON.parse(searchResult);
+            console.log(searchResultArray);
+            var resultArray = []
+            searchResultArray.items.forEach(element => {
+                var card = createCard(element);
+                resultArray.push(card);
+
+                /*var cardPromise = getCard(element.question_id);
+                cardPromise.then(function(val) {
+                    resultArray.push(val);
+                })*/
+            });
+            resolve(resultArray);
+        })
+    });
+
+    return promise;
 }
 
-module.exports = getCard;
+const getChildren = function(card) {
+    var result = new Promise(function(resolve) {
+        var JSONString = JSON.stringify({ "items": [] });
+        resolve(JSONString);
+    });
+
+    if (card.childrenCount == 0) {
+        return result;
+    }
+
+    switch (card.type) {
+        case "question":
+            result = stackApi.getAnswers(card.id, true);
+            break;
+        case "answer":
+            result = stackApi.getComments(card.id);
+            break;
+    }
+
+    return result;
+}
+
+
+module.exports = {
+    getCard: getCard,
+    searchCard: searchCard,
+    getChildren: getChildren
+};

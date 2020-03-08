@@ -16,7 +16,7 @@
     </div>
 
     <river class="river"
-      v-on:setBaseCard = "setOrbitCards($event.id)"
+      v-on:setBaseCard = "setOrbitCards($event)"
       :cards = "riverCards"
     ></river>
 
@@ -56,12 +56,14 @@ export default {
     setSearchedCard: function(term){
       const vm = this;
       vm.cards=[];
+      vm.riverCards=[];
       var cardPromise = StackFacade.searchCard(term);
       cardPromise.then(function(val){
         vm.cards = val;
       })
     },
     addToRiver: function(card){
+      console.log(card);
       this.riverCards.push(card);
       this.setOrbitCards(card);
     },
@@ -69,7 +71,9 @@ export default {
       var vm = this;
       var childrenPromise = StackFacade.getChildren(card);
       childrenPromise.then(function(val){
-          vm.cards = JSON.parse(val);
+          var children = JSON.parse(val);
+          console.log(children);
+          vm.cards = children.items;
       });
     }
   }

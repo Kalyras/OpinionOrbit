@@ -33,5 +33,10 @@ export default {
       this.$emit('setBaseCard', this.riverCards[index]);
     }
   },
+  watch:{
+    cards: function(newVal){
+      this.riverCards = newVal;
+    }
+  }
 }
 </script>

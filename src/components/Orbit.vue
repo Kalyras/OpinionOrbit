@@ -132,8 +132,9 @@ export default {
       var vm = this;
 
       childrenPromise.then(function(val){
-        var lvl2 = JSON.parse(val);
-        vm.lvl2Cards = lvl2.items;
+        var lvl2 = val;
+        console.log(lvl2);
+        vm.lvl2Cards = lvl2;
         
       })
     },

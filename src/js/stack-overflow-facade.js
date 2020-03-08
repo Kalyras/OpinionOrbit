@@ -83,17 +83,6 @@ const getCard = function(postId) {
     return promise;
 }
 
-/*function createCard(id, title, content, tags) {
-    var card = {
-        "id": id,
-        "title": title,
-        "body": content,
-        "tags": tags
-    }
-
-    return card
-}*/
-
 const searchCard = function(term) {
     var promise = new Promise(function(resolve) {
         var searchPromise = stackApi.search(term);
@@ -104,11 +93,6 @@ const searchCard = function(term) {
             searchResultArray.items.forEach(element => {
                 var card = createCard(element);
                 resultArray.push(card);
-
-                /*var cardPromise = getCard(element.question_id);
-                cardPromise.then(function(val) {
-                    resultArray.push(val);
-                })*/
             });
             resolve(resultArray);
         })
@@ -118,25 +102,38 @@ const searchCard = function(term) {
 }
 
 const getChildren = function(card) {
-    var result = new Promise(function(resolve) {
-        var JSONString = JSON.stringify({ "items": [] });
-        resolve(JSONString);
+    var promise = new Promise(function(resolve) {
+        var emptyItems = { items: [] };
+        resolve(emptyItems);
     });
 
     if (card.childrenCount == 0) {
-        return result;
+        return promise;
     }
 
     switch (card.type) {
         case "question":
-            result = stackApi.getAnswers(card.id, true);
+            promise = stackApi.getAnswers(card.id, true);
             break;
         case "answer":
-            result = stackApi.getComments(card.id);
+            promise = stackApi.getComments(card.id);
             break;
     }
 
-    return result;
+    var resultPromise = new Promise(function(resolve) {
+        promise.then(function(val) {
+            var promiseResult = JSON.parse(val);
+            var resultArray = []
+            promiseResult.items.forEach(function(element) {
+                var card = createCard(element);
+                resultArray.push(card);
+            })
+
+            resolve(resultArray);
+        })
+    })
+
+    return resultPromise;
 }
 
 

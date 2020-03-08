@@ -1,5 +1,6 @@
 <template>
 <div class="card" v-on:click="putToRiver()">
+    <div class="card-author">Written by: {{card.author}}</div>
     <div class="card-title">{{card.title}}</div>
     <div class="tag-container">
         <div class="tag"  v-for="tag in card.tags" v-bind:key="tag">{{tag}}</div>

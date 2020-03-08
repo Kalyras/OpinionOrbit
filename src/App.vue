@@ -71,9 +71,9 @@ export default {
       var vm = this;
       var childrenPromise = StackFacade.getChildren(card);
       childrenPromise.then(function(val){
-          var children = JSON.parse(val);
+          var children = val;
           console.log(children);
-          vm.cards = children.items;
+          vm.cards = children;
       });
     }
   }

@@ -42,6 +42,10 @@ h1 {
     overflow: scroll;
 }
 
+.card-author {
+    text-align: right;
+}
+
 .river {
     max-width: 80%;
     margin: auto;

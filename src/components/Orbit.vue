@@ -58,7 +58,7 @@
       v-if = "nest && lvl2Cards.length > 0"
       :cards = "lvl2Cards"
       :nest = "false"
-      :current = "1"
+      :current = "0"
     ></orbit>
 
     
@@ -86,7 +86,7 @@ export default {
   watch: {
     orbitCurrent: function(newVal){
       this.activecards = this.getActive(this.orbitCards, newVal);
-      //console.log(this.activecards.center);
+      console.log(this.orbitCurrent);
       this.getChildren(this.activecards.center);
     },
     cards: function(newVal){
@@ -111,7 +111,7 @@ export default {
 
     },
     next: function (){
-      if (this.orbitCurrent < this.cards.length -1){
+      if (this.orbitCurrent < this.orbitCards.length -1){
         this.orbitCurrent +=1
       }
     },
@@ -158,6 +158,7 @@ export default {
     },
     cardChosen: function (card){
       this.$emit('cardChosen', card);
+      this.orbitCurrent = 0;
     }
   },
   mounted: function(){

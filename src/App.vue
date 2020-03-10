@@ -66,6 +66,7 @@ export default {
       console.log(card);
       this.riverCards.push(card);
       this.setOrbitCards(card);
+      this.current=0;
     },
     setOrbitCards: function(card){
       var vm = this;

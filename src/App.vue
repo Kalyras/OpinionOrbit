@@ -11,8 +11,8 @@
     </div>
 
     <div class="search-custom">
-      <input id="questionId" v-model="questionId" placeholder="Enter quesition ID">
-      <button class="btn btn-danger search-btn" v-on:click="setSearchedCard(questionId)">Search</button>
+      <input id="searchTerm" v-model="searchTerm" placeholder="Search...">
+      <button class="btn btn-danger search-btn" v-on:click="setSearchedCard(searchTerm)">Search</button>
     </div>
 
     <river class="river"
@@ -46,7 +46,7 @@ export default {
   },
   data (){
     return {
-      questionId: "vue child",
+      searchTerm: "",
       current: 0,
       cards: [],
       riverCards: []

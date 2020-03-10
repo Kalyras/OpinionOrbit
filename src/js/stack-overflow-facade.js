@@ -17,7 +17,6 @@ const getCard = function(postId) {
                 } else if (postType == "answer") {
                     postProm = stackApi.getAnswer(postId, true);
                 } else {
-                    console.log("Post Type is not answer nor question");
                     throw {
                         name: "PostTypeUnkown",
                         message: "The type of the requested post is unknown"
@@ -88,7 +87,6 @@ const searchCard = function(term) {
         var searchPromise = stackApi.search(term);
         searchPromise.then(function(searchResult) {
             var searchResultArray = JSON.parse(searchResult);
-            console.log(searchResultArray);
             var resultArray = []
             searchResultArray.items.forEach(element => {
                 var card = createCard(element);

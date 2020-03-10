@@ -63,7 +63,6 @@ export default {
       })
     },
     addToRiver: function(card){
-      console.log(card);
       this.riverCards.push(card);
       this.setOrbitCards(card);
       this.current=0;
@@ -73,7 +72,6 @@ export default {
       var childrenPromise = StackFacade.getChildren(card);
       childrenPromise.then(function(val){
           var children = val;
-          console.log(children);
           vm.cards = children;
       });
     }

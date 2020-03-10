@@ -86,7 +86,6 @@ export default {
   watch: {
     orbitCurrent: function(newVal){
       this.activecards = this.getActive(this.orbitCards, newVal);
-      console.log(this.orbitCurrent);
       this.getChildren(this.activecards.center);
     },
     cards: function(newVal){
@@ -151,7 +150,6 @@ export default {
 
       childrenPromise.then(function(val){
         var lvl2 = val;
-        console.log(lvl2);
         vm.lvl2Cards = lvl2;
         
       })

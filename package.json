@@ -46,14 +46,16 @@
         "parserOptions": {
             "parser": "babel-eslint"
         },
-        "overrides": [{
-            "files": [
-                "**/__tests__/*.{j,t}s?(x)"
-            ],
-            "env": {
-                "mocha": true
+        "overrides": [
+            {
+                "files": [
+                    "**/__tests__/*.{j,t}s?(x)"
+                ],
+                "env": {
+                    "mocha": true
+                }
             }
-        }]
+        ]
     },
     "browserslist": [
         "> 1%",

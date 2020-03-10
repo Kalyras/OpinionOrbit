@@ -10,7 +10,7 @@
       <div class="invis-card card" v-else>
       </div>
       
-      <button type="button" id="prev" v-if="orbitCards.length > 0" v-on:click="prev()" class="btn direction-btn btn-labeled ">
+      <button type="button" id="prev" v-if="orbitCards.length > 0 && orbitCurrent > 0" v-on:click="prev()" class="btn direction-btn btn-labeled ">
               <span class="btn-label">
                 <i class="glyphicon glyphicon-chevron-left"></i>
               </span>
@@ -23,7 +23,7 @@
        :card = "activecards.center"
       ></card>
       
-      <button type="button" id="next" v-if="orbitCards.length > 0" v-on:click="next()" class="btn direction-btn btn-labeled ">
+      <button type="button" id="next" v-if="orbitCards.length > 0 && orbitCurrent < orbitCards.length-1" v-on:click="next()" class="btn direction-btn btn-labeled ">
           Next 
           <span class="btn-label">
             <i class="glyphicon glyphicon-chevron-right"></i>

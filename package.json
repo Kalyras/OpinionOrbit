@@ -16,7 +16,8 @@
     "dependencies": {
         "core-js": "^3.4.4",
         "express": "^4.17.1",
-        "vue": "^2.6.10"
+        "vue": "^2.6.10",
+        "vue-analytics": "^5.22.1"
     },
     "devDependencies": {
         "@vue/cli-plugin-babel": "^4.1.0",

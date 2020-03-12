@@ -75,6 +75,9 @@ export default {
           vm.cards = children;
       });
     }
+  },
+  mounted(){
+    this.$ga.page('/');
   }
 }
 </script>
